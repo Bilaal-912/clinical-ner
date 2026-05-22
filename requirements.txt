@@ -1,0 +1,11 @@
+pandas
+requests
+beautifulsoup4
+spacy
+transformers
+torch
+fastapi
+uvicorn
+streamlit
+psycopg2-binary
+python-dotenv
