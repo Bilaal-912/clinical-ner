@@ -26,4 +26,27 @@ def convert_task(task):
         entities.append((start,end,label))
     return (text, {"entities": entities})
 
+def has_overlap(entities):
+    sorted_ents=sorted(entities,key=lambda e:e[0])
+    for i in range(len(sorted_ents) - 1):
+        _, end_a, _ = sorted_ents[i]
+        start_b, _, _ = sorted_ents[i + 1]
+        if start_b < end_a:
+            return True
+    return False
+
+def remove_overlap(entities):
+    sorted_ents = sorted(entities, key=lambda e: e[0])
+    cleaned=[]
+    for ent in sorted_ents:
+        start,end,label=ent
+        conflict=False
+        for kept_start,kept_end,_ in cleaned:
+            if start<kept_end and end>kept_start:
+                conflict=True
+                break
+            if not conflict:
+                cleaned.append(end)
+    return cleaned
+
 
