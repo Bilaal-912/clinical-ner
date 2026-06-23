@@ -49,7 +49,7 @@ def remove_overlaps(entities):
                 conflict=True
                 break
             if not conflict:
-                cleaned.append(end)
+                cleaned.append(ent)
     return cleaned
 
 def build_training_data(raw_data):
