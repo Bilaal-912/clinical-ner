@@ -7,8 +7,8 @@ def load_model(path):
     print(f"Model loaded from {path}")
     return nlp
 
-def predict(nlp,text):
-    doc=nlp(text)
+def predict(nlp, text):
+    doc = nlp(text)
     for ent in doc.ents:
         print(f"{ent.label_}: {ent.text}")
 

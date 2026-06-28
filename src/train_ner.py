@@ -6,7 +6,7 @@ from spacy.training import Example
 TRAIN_PATH="data/processed/train.spacy"
 DEV_PATH="data/processed/dev.spacy"
 MODEL_OUTPUT="models/ner_model"
-N_ITER = 20
+N_ITER = 50
 
 def load_data(path,nlp):
     doc_bin=DocBin().from_disk(path)
@@ -29,7 +29,7 @@ def train_model(nlp, train_docs, dev_docs):
         for doc in train_docs:
             example = Example.from_dict(doc, {"entities": [(ent.start_char, ent.end_char, ent.label_) for ent in doc.ents]})
             examples.append(example)
-        nlp.update(examples, sgd=optimizer, losses=losses,drop=0.3)
+        nlp.update(examples, sgd=optimizer, losses=losses)
         print(f"Iteration {iteration + 1}, Loss: {losses['ner']:.4f}")
         dev_examples = [Example.from_dict(doc, {"entities": [(ent.start_char, ent.end_char, ent.label_) for ent in doc.ents]}) for doc in dev_docs]
         scores = nlp.evaluate(dev_examples)
