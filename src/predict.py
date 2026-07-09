@@ -9,15 +9,24 @@ def load_model(path):
 
 def predict(nlp, text):
     doc = nlp(text)
+    entities = []
     for ent in doc.ents:
-        print(f"{ent.label_}: {ent.text}")
+        entities.append({
+            "label": ent.label_,
+            "text": ent.text,
+            "start": ent.start_char,
+            "end": ent.end_char
+        })
+    return entities
 
 def main():
     nlp = load_model(MODEL_PATH)
-    text = text = "patient has chest pain and shortness of breath. she takes aspirin and zyrtec. diagnosis is allergic rhinitis and hypertension."
+    text = "patient has chest pain and shortness of breath. she takes aspirin and zyrtec. diagnosis is allergic rhinitis and hypertension."
     print(f"\nInput: {text}")
+    entities = predict(nlp, text)
     print("\nEntities found:")
-    predict(nlp, text)
+    for ent in entities:
+        print(f"{ent['label']}: {ent['text']}")
 
 if __name__ == "__main__":
     main()
