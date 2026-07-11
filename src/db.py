@@ -25,7 +25,6 @@ def save_entities(document_id, entities):
     cursor.close()
     conn.close()
     print(f"Saved {len(entities)} entities for document {document_id}")
-
 def get_entities(label=None):
     conn = get_connection()
     cursor = conn.cursor()
@@ -33,10 +32,11 @@ def get_entities(label=None):
         cursor.execute("SELECT * FROM entities WHERE entity_label = %s", (label,))
     else:
         cursor.execute("SELECT * FROM entities")
+    columns = [desc[0] for desc in cursor.description]
     rows = cursor.fetchall()
     cursor.close()
     conn.close()
-    return rows
+    return [dict(zip(columns, row)) for row in rows]
 
 def main():
     test_entities = [
